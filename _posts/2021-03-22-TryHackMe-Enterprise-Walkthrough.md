@@ -7,6 +7,13 @@ tags: [pentesting, hacking, tryhackme, walkthrough]
 
 ---
 
+[**Enterprise**](https://tryhackme.com/room/enterprise) is an awesome box from [TryHackMe](https://tryhackme.com/) by @NekoS3c
+
+***
+>You just landed in an internal network. You scan the network and there's only the Domain Controller...
+
+
+
 ## Enumeration
 
 As always, we'll start with nmap scan. First all port scan and then version detection / default script nmap scan on the open ports.
