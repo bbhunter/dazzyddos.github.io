@@ -103,34 +103,34 @@ Nmap done: 1 IP address (1 host up) scanned in 164.22 seconds
 ### Web Enumeration
 
 We found few *dns* names and DC hostname from the nmap output.
-![](./Images/01.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/01.png)
 
 Let's add it to our */etc/hosts* file.
-![](./Images/02.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/02.png)
 
 Nothing seems to be there on the website.
-![](./Images/03.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/03.png)
 
 I also ran *gobuster* and *nikto* in the background.
-![](./Images/04.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/04.png)
 
-![](./Images/05.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/05.png)
 
 When visiting the website even with the respect dns names which we had found yields the same result.
-![](./Images/06.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/06.png)
 
 ### SMB Enumeration
 
 We found some open shares.
-![](./Images/07.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/07.png)
 
 Let's connect to the *Users* Share and download everything for what we have permission.
-![](./Images/08.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/08.png)
 
-![](./Images/09.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/09.png)
 
 Since i can see that there's *bitbucket* directory, so my next step was to see if there's any wordlist containing common files or directory names for the bitbucket inside **SecLists** 
-![](./Images/10.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/10.png)
 
 We couldn't find any wordlist for *bitbucket*. At this point of time, I was clueless and was deciding if i should do subdomain bruteforce or not. I went in again to check for all open ports and realized that i had missed one port i.e., **7990**. My nmap all port scan had found it but i forgot to include it in my nmap server version scan. So, again i ran nmap service version scan only for this port.
 ```bash
@@ -152,89 +152,89 @@ Nmap done: 1 IP address (1 host up) scanned in 28.48 seconds
 ```
 
 Opening it on browser takes it to 
-![[bla/Pasted image 20210322092542.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322092542.png)
 
 The SSO links are empty and other links take us to the official atlassian website for login. At this point i don't have any valid usernames or email. Since it's a domain controller box and it has kerberos port open. So, i used **kerbrute** to find some valid usernames in the domain.
 ```markdwon
 /opt/kerbrute/kerbrute_linux_amd64 userenum --dc 10.10.86.5 -d lab.enterprise.thm /opt/SecLists/Usernames/xato-net-10-million-usernames.txt -o users.txt
 ```
 
-![[bla/Pasted image 20210322092800.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322092800.png)
 
 Now we have some valid usernames. I went ahead to use **Burp Intruder** to see if anyone of them is valid and taking us to the next step. Now at this exact point I realized, it's not making any *POST* request nor it's sending the data to any url.
-![[bla/Pasted image 20210322093401.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322093401.png)
 
 After submitting it's just loading the same page again. After this i went onto bruteforcing the subdomains but had no luck in that. 
 The page is saying ``` Reminder to all Enterprise-THM Employees:  
 We are moving to Github!``` . At this point i checked if they have any *.git* , *github*, *gitlab*, *bitbucket* or any such directories but they had not, then i went onto check if they have any **Github** repository.
-![[bla/Pasted image 20210322094307.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322094307.png)
 
 *@Sq00ky* is the creator for this machine. So at this point i knew that finally i am in the right direction.
 
 Found one people in the repository.
-![[bla/Pasted image 20210322094814.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322094814.png)
 
 Found one powershell filed in his directory named **SystemInfo.ps1** which had two commits. When we revert back to the previous commit, we found his creds.
-![[bla/Pasted image 20210322094951.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322094951.png)
 
 Let's try if this creds are valid for *SMB* or *WinRM*
 This user *nik* had only the same level of access as of the *anonymous* user.
-![[bla/Pasted image 20210322095414.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322095414.png)
 
 And he doesn't have access to the winrm either.
-![[bla/Pasted image 20210322095501.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322095501.png)
 
 Now since we have a valid domain creds, we can enumerate basic info using **rcpclient**
-![[bla/Pasted image 20210322095950.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322095950.png)
 
 Let's add thesse users into our users.txt , many of which was already found by **kerbrute**.
-![[bla/Pasted image 20210322100313.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322100313.png)
 
 Now let's run **bloodhound.py** with the credentials we have.
 I was getting the below error when running **bloodhound.py** although i am sure the arguments specified is correct. Maybe i will talk to the creator of this box on this and update the blog.
-![[bla/Pasted image 20210322101036.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322101036.png)
 
 Since i can't use bloodhound, my next step was to do everything manual. Starting with **ASPReproast** attack where we check if any user in the domain has pre-auth disabled using which we can request his *TGT* key which contains his password NTLM hash which we can try cracking locally.
-![[bla/Pasted image 20210322101339.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322101339.png)
 
 Next to see if any user has *SPN* set. If it is then we can request the *TGS* key since we are already part of the domain with the crednetials we have. The *TGS* key is encrypted with the password hash of the service. So, if we could crack it, we can get the password for the user.
-![[bla/Pasted image 20210322101748.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322101748.png)
 
 As can be seen, the user *bitbucket* has SPN set. So, now we can request TGS and try to crack it.
-![[bla/Pasted image 20210322101904.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322101904.png)
 
 Yayyyyy
-![[bla/Pasted image 20210322102001.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322102001.png)
 
 Honestly I must say Withdrawing cash from ATM and cracking hashes successfully are the best two feelings, haha.
 
 I tried the creds with smb and winrm but again no luck. At this point i again went back to the nmap port scan results and found the *RDP* port was also open. I first tried logging in using the *nik* user which failed and then tried the *bitbucket* user and this time success.
-![[bla/Pasted image 20210322102734.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322102734.png)
 
-![[bla/Pasted image 20210322102936.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322102936.png)
 
 We didn't have **Administrator** access. So my first step was privilege escalation. Did some basic enumeration(checking directories, files, current permission i.e., whoami /all etc) couldn't find anything so next step was to use **winPEAS.exe**.
-![[bla/Pasted image 20210322103428.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322103428.png)
 
 Not sure why there were no colors. Anyways, in the output we found that one service's binary path has no double quotes.
-![[bla/Pasted image 20210322103932.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322103932.png)
 
 It could be vulnerable to `Unquoted Service Path` if we have write access to any of those folders.
 
 Bingo, We have write access :P
-![[bla/Pasted image 20210322104555.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322104555.png)
 
 Now we'll use this script [Get-ServiceACL](https://rohnspowershellblog.wordpress.com/2013/03/19/viewing-service-acls/) to check if we have permission to start and stop the service.
 
-![[bla/Pasted image 20210322105355.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322105355.png)
 
 As can be seen, we have permission to start and stop the service. Now, let's create our reverse shell using **msfvenom** and put it as *Zero.exe* inside that folder.
-![[bla/Pasted image 20210322105716.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322105716.png)
 
-![[bla/Pasted image 20210322105921.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322105921.png)
 
 Aaaaaaannnnddddd, we got our reverse shell back as *SYSTEM*, yayyyyyy.
-![[bla/Pasted image 20210322110034.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/enterprise/Pasted%20image%2020210322110034.png)
 
 It was a fun box again. Thanks for your time readers :)
 
