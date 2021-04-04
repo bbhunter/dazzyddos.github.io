@@ -14,7 +14,7 @@ Hi Dear Readers, hope you all are safe and doing good. So, I welcome you all to 
 
 I will not be delving deep into what is a docker or how it works but will give you very short brief idea about it. There used to be one time when developers had to face a lot of dependency issues. Their code would work totally fine on their computer but the same program would break when run on different computer. The answer is obvious that the dependencies or libraries the other computer is using is not necessarily same as the one on which the program was built. So, the *docker* addresses this issue. Docker allows us to wrap our code, dependencies, libraries, files or anything that's required by the program inside a container and this container is portable. The other computers are only required to have docker installed in order to run this container. It might sound like **Virtual Machine** but there's notable difference aside from the fact that docker containers are very light weight in comparison to the virtual machines. I believe the below image would be enough to clear the difference between them, If not please do some more research on it.
 
-![](../Images/DockerBuildSec/vmvsdocker.jpg)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/vmvsdocker.jpg)
 **Source: ** https://www.weave.works/blog/a-practical-guide-to-choosing-between-docker-containers-and-vms
 
 <br>
@@ -24,7 +24,7 @@ I will not be delving deep into what is a docker or how it works but will give y
 By now I am assuming that you all are ready with your Linux instance. In my case I'll be using **Kali LInux 2021** but you can use any linux machine. We'll be installing Docker and bulid our basic non-secure docker image. Most of you might already have docker installed. I'll be referring the official docker documentation to follow the installation steps and I recommend the same to all of you. You can select your version of linux from the link and follow the steps accordingly.
 https://docs.docker.com/engine/install/
 In my case, It'll be **Debian**. First let's check if we've docker already installed by typing docker in the command line.
-![[Pasted image 20210404171225.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404171225.png)
 
 As can be seen, it's not installed for me. If you have it installed and want to install it again from the beginning, you can uninstall it by:
 ```
@@ -36,32 +36,32 @@ According to the documentation, first I must update my apt repository.
 sudo apt-get update
 ```
 
-![[Pasted image 20210404171726.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404171726.png)
 
 You can also directly install docker from the apt repository.
 ```
 sudo apt-get install -y docker.io
 ```
-![[Pasted image 20210404172946.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404172946.png)
 
 Once you have installed Docker, you can run:
 ```
 docker run hello-world
 ```
 
-![[Pasted image 20210404173125.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404173125.png)
 
 Now we know that docker has been successfully installed on our machine and now we can proceed further. We are running docker commands as the root user. If we want to run docker being any other user, we must add him/her to Docker group. 
 ```
 usermod -aG docker dazzy
 ```
-![[Pasted image 20210404173549.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404173549.png)
 
 Here I added myself(dazzy) to the *docker* group and now I can run docker commands without having to put sudo before each command.
 
 ## Need for Build Security
 When building a docker image, we use a file named **Dockerfile** which contains all the build instructions. Once the image is built, Containers are launched from these images.
-![[Pasted image 20210404174246.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404174246.png)
 
 Apologies for my drawing :P
 Many people think that containers are the ones that need to be protected. However, the security starts from the *Dockerfile* itself. When writing these Dockerfiles, we have to maintain security hygiene. It is important for developers to follow security best practices to avoid any security pitfalls in running containers.
@@ -85,16 +85,16 @@ def encode_data():
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
 ```
-![[Pasted image 20210404175931.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404175931.png)
 
 Many of you might already be like "Wait a minute, why are you making us write a vulnerable python API program". Yeah Yeah, you are correct. It's only to explain the security measures that we'll be looking at later. If you don't know what this program does, it takes user input from the API endpoint */encode* using the GET parameter *input* and passes that input to the command which encodes our user input to base64 encoding format and then we are passing it to subprocess's check_output method which executes the command which is also including our user input. 
 
 Since it's a flask api, we also need to install the Flask package. We'll create a *requirements.txt* file and put the package name there and will ask pip to install the package we need.
 
-![[Pasted image 20210404180928.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404180928.png)
 
 Let's now create our *Dockerfile*. Since we'll be creating multiple *Dockerfiles*, I will be naming them *Dockerfile1*, *Dockerfile2* and so on since there's no restriction on the naming. Let's build our first *Dockerfile*:
-![[Pasted image 20210404183311.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404183311.png)
 ***
 > - In the first line, we are specifying the base image on top of which our application will be packaged. Since this is a python3 application, we are going to use python3 base image.
 > 
@@ -120,46 +120,46 @@ docker build -f Dockerfile1 -t api:v1 .
 // we are specifying the tag named api:v1 to the image 
 ```
 
-![[Pasted image 20210404183722.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404183722.png)
 [..snip..]
 
 To see if our image build was successfull, we can run `docker images` to see available images.
-![[Pasted image 20210404183851.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404183851.png)
 
 So our build was successfull. We finally created our first Docker image. This docker image we build is not fully secure and can be more improvized which we'll be see going forward.
 
 ## The use of root accounts
 
 When a container is started, a root user account will be available within the container by default.
-![[Pasted image 20210404184740.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404184740.png)
 
 Even though these accounts on Docker container do not come with all the capabilities that a traditional root user has, It is recommended to use a non-root user within a container. One way to avoid this is to specify **--user** flag with Docker command to use a non-root user within a container.
-![[Pasted image 20210404184854.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404184854.png)
 
 Another way is to specify *USER* command inside the *Dockerfile* itself.
-![[Pasted image 20210404185235.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404185235.png)
 
 So we solved this problem during the build stage itself.
 
 Our python program is currently running as inside the container.
-![[Pasted image 20210404185616.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404185616.png)
 
 So, anyone who compromises our program will have root access to the container.
-![[Pasted image 20210404190307.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404190307.png)
 
 So let's fix this in our *Dockerfile*. We'll be creating a second *Dockerfile* which will avoid running the container as root user.
-![[Pasted image 20210404190715.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404190715.png)
 
 In our new *Dockerfile*, we created a user named user and gave him the ownership to the /app directory and gave 755 permission to the /app directory and then changed the user context of the container image.
 
 Let's now build this image.
-![[Pasted image 20210404190927.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404190927.png)
 [..snip..]
 
 Let's now run this container image.
-![[Pasted image 20210404191119.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404191119.png)
 
-![[Pasted image 20210404191407.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404191407.png)
 
 As can be seen, now it doesn't give the root user anymore.
 
@@ -170,17 +170,17 @@ As we saw, the **COPY** command is used to get the contents onto the image's dir
 COPY . /app
 ```
 This can be risky especially when the current directory has some sensitive files such as secrets or backup files. It is also possible that we may copy files onto container which are not needed such as the *Dockerfile*. 
-![[Pasted image 20210404192328.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404192328.png)
 
 Copying such unnecessaries files onto the container image can increase the file size of the final image.
 
 Let's fix our *Dockerfile* to only copy the file that's needed.
-![[Pasted image 20210404192744.png]]
-![[Pasted image 20210404192808.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404192744.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404192808.png)
 [..snip..]
 
 Let's now run the container image.
-![[Pasted image 20210404192923.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404192923.png)
 
 As can be seen that this time our Dockerfiles were not copied. Those files were only copied which we explicitly specified.
 <br>
