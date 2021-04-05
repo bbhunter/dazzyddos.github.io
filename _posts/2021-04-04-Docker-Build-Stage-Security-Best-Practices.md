@@ -296,7 +296,7 @@ FROM python:3.9.1-alpine
 There are more such security measures which I am not covering in the blog post since it'll be like spoiling srini's course and I neither want to steal the credit for his hard work and effort. So, Thank you all for giving your time to read this blog post. If you want to know more security measures and delve deeper into the topics, I would recommend you to get his course which is part of The Offensive Labs subscription.
 
 ## Links and Resources
-https://theoffensivelabs.com/p/all-course-subscription-pack
-https://www.youtube.com/watch?v=-LeV_c1zG-s
-https://docs.docker.com/engine/install/debian/
-https://www.theoffensivelabs.com/p/hacking-and-securing-docker-containers
+https://theoffensivelabs.com/p/all-course-subscription-pack <br>
+https://www.youtube.com/watch?v=-LeV_c1zG-s <br>
+https://docs.docker.com/engine/install/debian/ <br>
+https://www.theoffensivelabs.com/p/hacking-and-securing-docker-containers <br>
