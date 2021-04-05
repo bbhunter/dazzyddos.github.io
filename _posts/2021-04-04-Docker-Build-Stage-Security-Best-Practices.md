@@ -60,12 +60,17 @@ usermod -aG docker dazzy
 
 Here I added myself(dazzy) to the *docker* group and now I can run docker commands without having to put sudo before each command.
 
+<br>
+
 ## Need for Build Security
 When building a docker image, we use a file named **Dockerfile** which contains all the build instructions. Once the image is built, Containers are launched from these images.
 ![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404174246.png)
 
 Apologies for my drawing :P
 Many people think that containers are the ones that need to be protected. However, the security starts from the *Dockerfile* itself. When writing these Dockerfiles, we have to maintain security hygiene. It is important for developers to follow security best practices to avoid any security pitfalls in running containers.
+
+
+<br >
 
 ## Building a Basic Docker Image
 We are going to write a simple API in python-flask, a Dockerfile to write the build instructions and will finally build the image and run it.
@@ -129,6 +134,8 @@ To see if our image build was successfull, we can run `docker images` to see ava
 
 So our build was successfull. We finally created our first Docker image. This docker image we build is not fully secure and can be more improvized which we'll be see going forward.
 
+<br>
+
 ## The use of root accounts
 
 When a container is started, a root user account will be available within the container by default.
@@ -163,6 +170,8 @@ Let's now run this container image.
 ![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/DockerBuildSec/Pasted%20image%2020210404191407.png)
 
 As can be seen, now it doesn't give the root user anymore.
+
+<br>
 
 ## COPY only what is needed
 
@@ -206,6 +215,8 @@ https://hub.docker.com/search?image_filter=official&type=image
 ```
 
 Official images are trusted and free from malicious behavior and Security Updates are applied in timely manner for them.
+
+<br>
 
 ## Use Minimal base images
 As we saw that the **FROM** command is used to get the base image on top of which our base image will be built. When images are built using dockerfile, it's recommended to use base image with minimum tools and utilities. If we can, it's better to use scratch images. As large number of tools and libraries will not be present in the contaner, it'll automatically minimize the attack surface.
@@ -293,7 +304,7 @@ FROM python:3.9.1-alpine
 
 <br>
 
-There are more such security measures which I am not covering in the blog post since it'll be like spoiling srini's course and I neither want to steal the credit for his hard work and effort. So, Thank you all for giving your time to read this blog post. If you want to know more security measures and delve deeper into the topics, I would recommend you to get his course which is part of The Offensive Labs subscription.
+There are more such security measures which I am not covering in the blog post since it'll be like spoiling **The Offensive Labs'** course and I neither want to steal the credit for his hard work and effort. So, Thank you all for giving your time to read this blog post. If you want to know more security measures and delve deeper into the topics, I would recommend you to get his course which is part of The Offensive Labs subscription.
 
 ## Links and Resources
 https://theoffensivelabs.com/p/all-course-subscription-pack <br>
