@@ -3,7 +3,7 @@ title: Docker Build Stage Security Best Practices
 author: Dazzy Ddos
 date: 2021-04-04 14:10:00 +0800
 categories: [Docker Build Security]
-tags: [pentesting, hacking, docker, docker security, docker build
+tags: [pentesting, hacking, docker, docker security, docker build]
 
 ---
 
