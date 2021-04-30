@@ -11,14 +11,6 @@ tags: [pentesting, hacking, aws, terraform, phishing]
 
 Hola, cariño readers. I hope you all are doing good and safe. In this blog post, I will walk you through creating an EC2 Instance on AWS and then installing and setting Gophish instance on the same manually from scratch. After that we'll look into how we could automate everything from creating and setting ec2 instance till installing and running gophish on our created instance with terraform. I am a firm believer that you can't learn anything well unless you don't do it. So, I would want everyone to follow along with me because you don't learn by learning, you learn by doing :P . Okay so enough with my ugly philosophies, let's get started. I am going to be assuming that you have an account on AWS, if not you can go and create one account now, it won't take much time and on top of that it's free(limited resources/usage) for an year although it asks for credit card information for confimation. Rest of the tools we'll install as we go.
 
-## So WTH is EC2
-
-I love to give my readers little bit explaination about the things we are going to use and do. **EC2** (Elastic Computer Cloud) is one of many services provided by AWS that allows us to rent virtual machines on which we can run our applications, services and even servers. If I'm not wrong EC2 is AWS Infrastructure as a Service model. 
-
-**Note**: Many of you must be thinking why I have used the word **rent** above when I also said it's free previously :P . Let me tell you not everything is free or supposed to free or should be free in this world, if something is free then there's reason behind it. For the first 12 months following your AWS sign-up date, you get up to 750 hours of micro instances each month. When your free usage tier expires or if you exceeds the free tier restrictions, you pay standard, pay as you go service rates.
-
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/terraform-gophish/Pasted%20image%2020210430195558.png)
-
 ## Creating EC2 Instance
 
 With that being said, let's get going with creating our EC2 instance on which we'll run our gophish.
