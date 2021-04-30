@@ -13,7 +13,7 @@ Hola, cariño readers. I hope you all are doing good and safe. In this blog post
 
 ## Creating EC2 Instance
 
-With that being said, let's get going with creating our EC2 instance on which we'll run our gophish.
+With that being said, let's get going with creating our EC2 instance on which we'll run our gophish. If you know how to create an ec2 instance, you can skip this part.
 When we visit `console.aws.amazon.com` we get presented with this Dashboard. *It might change in future.*
 
 ![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/terraform-gophish/Pasted%20image%2020210430195811.png)
