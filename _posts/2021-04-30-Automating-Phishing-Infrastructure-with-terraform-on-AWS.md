@@ -466,5 +466,3 @@ You can follow the same terraform configuration file to automate and setup anyth
 
 
 
-
-
