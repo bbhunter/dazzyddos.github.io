@@ -225,8 +225,8 @@ Let's start creating our terraform file. Since terraform can be used to provisio
 ```bash
 provider "aws" {
   region     = "us-east-1"
-  access_key = "AKIA5ZP6KPX3IFXELWXC"
-  secret_key = "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"
+  access_key = "AKIA...[snip]"
+  secret_key = "/Q...[snip]"
 }
 ```
 
@@ -341,8 +341,8 @@ As can be seen, we have provided our base64 version of bash script to the user_d
 ```bash
 provider "aws" {
   region     = "us-east-1"
-  access_key = "AKIA5ZP6KPX3IFXELWXC"
-  secret_key = "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"
+  access_key = "AKIA...[snip]"
+  secret_key = "/Q...[snip]"
 }
 
 resource "aws_security_group" "main" {
