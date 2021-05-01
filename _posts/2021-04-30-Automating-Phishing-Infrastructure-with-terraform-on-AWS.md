@@ -11,6 +11,8 @@ tags: [pentesting, hacking, aws, terraform, phishing]
 
 Hola, cariño readers. I hope you all are doing good and safe. In this blog post, I will walk you through creating an EC2 Instance on AWS and then installing and setting Gophish instance on the same manually from scratch. After that we'll look into how we could automate everything from creating and setting ec2 instance till installing and running gophish on our created instance with terraform. I am a firm believer that you can't learn anything well unless you don't do it. So, I would want everyone to follow along with me because you don't learn by learning, you learn by doing :P . Okay so enough with my ugly philosophies, let's get started. I am going to be assuming that you have an account on AWS, if not you can go and create one account now, it won't take much time and on top of that it's free(limited resources/usage) for an year although it asks for credit card information for confimation. Rest of the tools we'll install as we go.
 
+# Manual Approach
+
 ## Creating EC2 Instance
 
 With that being said, let's get going with creating our EC2 instance on which we'll run our gophish. If you know how to create an ec2 instance, you can skip this part.
@@ -173,6 +175,8 @@ It looks exact replica of the gmail login except for the url part :P which can b
 Anyways, let's enter the credentials and if we go back to the Dashboard, we can see our campaign results.
 
 ![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/terraform-gophish/Pasted%20image%2020210430215804.png)
+
+# Automation Approach
 
 ## Automating setting up gophish on EC2 with terraform
 
