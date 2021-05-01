@@ -17,7 +17,7 @@ timezone: Asia/Jerusalem
 # --------------------------
 title: Dazzy Ddos                          # the main title
 
-tagline: A blog made not only to share my knowledge know but to make my concepts more stronger   # it will display as the sub-title
+tagline:    # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   A minimal, portfolio, sidebar,
