@@ -1,4 +1,11 @@
-## Defense Evasion Series: Part 1 AMSI Bypass
+---
+title: Defense Evasion Series Part 1: AMSI Bypass
+author: Dazzy Ddos
+date: 2021-08-18 19:10:00 +0800
+categories: [av bypass, amsi, defender bypass]
+tags: [defender bypass, hacking, av bypass, amsi, amsi bypass]
+
+---
 
 Hello Folks, This is the beginning of a new blog post series on various Defense Evasion
 techniques. In Part 1, we will look into what is AMSI, how it works and how to bypass it.
