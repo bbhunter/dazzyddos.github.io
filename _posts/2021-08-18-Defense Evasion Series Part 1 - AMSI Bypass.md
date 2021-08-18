@@ -1,5 +1,5 @@
 ---
-title: Defense Evasion Series Part 1: AMSI Bypass
+title: Defense Evasion Series Part 1 AMSI Bypass
 author: Dazzy Ddos
 date: 2021-08-18 19:10:00 +0800
 categories: [av bypass, amsi, defender bypass]
@@ -9,7 +9,7 @@ tags: [defender bypass, hacking, av bypass, amsi, amsi bypass]
 
 ### Introduction 
 
-Hello Folks, This is the beginning of a new blog post series on various Defense Evasion
+Hello Folks. This is the beginning of a new blog post series on various Defense Evasion
 techniques. In Part 1, we will look into what is AMSI, how it works and how to bypass it.
 
 ### Prerequisites
@@ -257,7 +257,7 @@ Thank you very much for taking your time in reading this. Feel free to reach out
 
 ![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816164903.png)
 
-### Resources
+### Resources and References
 
 https://docs.microsoft.com/en-us/windows/win32/amsi/antimalware-scan-interface-portal
 
