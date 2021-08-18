@@ -7,16 +7,16 @@ tags: [defender bypass, hacking, av bypass, amsi, amsi bypass]
 
 ---
 
-### Introduction 
+## Introduction 
 
 Hello Folks. This is the beginning of a new blog post series on various Defense Evasion
 techniques. In Part 1, we will look into what is AMSI, how it works and how to bypass it.
 
-### Prerequisites
+## Prerequisites
 
 Basic knowledge of **powershell**, **assembly**, **Virtual Memory**, [**Frida**](https://frida.re/). In case you are not I would recommend you spend sometime to get little familiar with those topics.
 
-### Windows Program Execution in a nutshell
+## Windows Program Execution in a nutshell
 
 Whenever a user double clicks a program or runs the program by other means, it's the responsibility of the Windows [loader](https://en.wikipedia.org/wiki/Loader_(computing)) to load and map the contents of the program in memory and then the execution is passed to the beginning of the code section.
 
@@ -24,7 +24,7 @@ Whenever a user double clicks a program or runs the program by other means, it's
 
 For the windows loader to load the program successfully into the memory, the program(binary) must be present on the disk.
 
-### Detection Methods in AV
+## Detection Methods in AV
 
 In the past AVs were not as smart as they are today. AVs would almost totally rely on signature based detection to determine if the content is malicious or not. AVs would only start their action as soon as some file is written on the disk or a new process is created (**note**: there are many more ways they would use to detect malware but these two were the most common ways to trigger AVs to start scanning). Now AVs are more smarter and the current detection methods include (This is not a comprehensive list but mostly seen):-
 
@@ -38,7 +38,7 @@ In the past AVs were not as smart as they are today. AVs would almost totally re
 
 Be it any detection method, it's easier for any AV products to do it while the binary is on Disk. At-least it used to be the case before AMSI, it was hard for AV products to detect fileless malware(which doesn't drop it's artifacts on the disk and completely executes in the memory). Even as of today it's the objective of most Adverseries and Red Teamers to not touch the disk or try to reduce it as much as possible cause it just reduces the likelihood of getting detected.
 
-### Invoke-Expression
+## Invoke-Expression
 
 Powershell has a cmdlet i.e., **Invoke-Expression** which evaluates or runs the string passed to it completely in memory without storing it on disk.
 We can also verify it with the help of **frida**, you can also use APIMonitor here if you want.
@@ -66,7 +66,7 @@ frida-trace -p 10004 -x kernel32.dll -i Write*
 
 If the program has to write something to a file on disk, it will utilize the WriteFile or WriteFileEx API defined inside kernel32.dll. So here we are tracing all API calls which starts with 'Write' inside kernel32.dll. So we can clearly see that the IEX cmdlet doesn't write the contenst to the disk, rather it executes the contents directly in memory. (**Note**: when you press up or down key, you will see a call to WriteFile API, that's not called by IEX)
 
-### Introduction to AMSI
+## Introduction to AMSI
 
 So for attackers and Red Teamers it was all going easy, days were good and there were no worries about getting detected. That's when Microsoft introduce AMSI with the release of Windows 10. At a high level, think of AMSI like a bridge which connects powershell to the antivirus software, every command or script we run inside powershell is fetched by AMSI and sent to installed antivirus software for inspection.
 
@@ -141,7 +141,7 @@ Among these AMSI APIs, the one which is interesting to us is AmsiScanString and 
 
 ![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816092128.png)
 
-### Bypassing AMSI
+## Bypassing AMSI
 
 The two most commonly used method for bypassing AMSI is obfuscation and Patching amsi.dll in memory.
 
