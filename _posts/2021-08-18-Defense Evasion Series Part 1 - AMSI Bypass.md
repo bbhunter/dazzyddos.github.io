@@ -7,6 +7,8 @@ tags: [defender bypass, hacking, av bypass, amsi, amsi bypass]
 
 ---
 
+### Introduction 
+
 Hello Folks, This is the beginning of a new blog post series on various Defense Evasion
 techniques. In Part 1, we will look into what is AMSI, how it works and how to bypass it.
 
