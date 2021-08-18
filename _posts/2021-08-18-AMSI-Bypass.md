@@ -201,8 +201,10 @@ As can be seen, now the result is 0 and AMSI is not triggered when we passed "In
 
 We took the help of WinDBG to patch the AmsiScanBuffer function. Many times in real world scenarios we might not have GUI access with windbg or any debugger with privileges to run it. So, there should be some way to programatically patch the functions without using any Debugger, luckily Microsoft has provided several document APIs to interact with it's platform and various services. We will be leveraging the below Windows APIs to programatically patch the AmsiScanBuffer().
 
-- [**LoadLibrary: **](https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya) To load amsi.dll library in the address space.
-- [**GetProcAddress: **](https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress) To retrieve the address of AmsiScanBuffer.
+- [**LoadLibrary:**](https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya) To load amsi.dll library in the address space.
+
+- [**GetProcAddress:**](https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress) To retrieve the address of AmsiScanBuffer.
+
 - [**VirtualProtect:**](https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect) To make the address region writable as by default it's RX. We need to make it writable as well so that we can overwrite the instructions and later we'll again make it to RX from RWX.
 
 To make use of these API calls in powershell, we will first define the methods in C# using pinvoke (which allows us to call unmanaged APIs in managed code) and then load the c# into the powershell session using add-type.
