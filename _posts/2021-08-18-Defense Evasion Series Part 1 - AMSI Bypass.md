@@ -11,7 +11,7 @@ Basic knowledge of **powershell**, **assembly**, **Virtual Memory**, [**Frida**]
 
 Whenever a user double clicks a program or runs the program by other means, it's the responsibility of the Windows [loader](https://en.wikipedia.org/wiki/Loader_(computing)) to load and map the contents of the program in memory and then the execution is passed to the beginning of the code section.
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210812102609.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210812102609.png)
 
 For the windows loader to load the program successfully into the memory, the program(binary) must be present on the disk.
 
@@ -53,7 +53,7 @@ Window 2
 
 frida-trace -p 10004 -x kernel32.dll -i Write*
 ```
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210812160257.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210812160257.png)
 
 If the program has to write something to a file on disk, it will utilize the WriteFile or WriteFileEx API defined inside kernel32.dll. So here we are tracing all API calls which starts with 'Write' inside kernel32.dll. So we can clearly see that the IEX cmdlet doesn't write the contenst to the disk, rather it executes the contents directly in memory. (**Note**: when you press up or down key, you will see a call to WriteFile API, that's not called by IEX)
 
@@ -63,17 +63,17 @@ So for attackers and Red Teamers it was all going easy, days were good and there
 
 Initially AMSI was introduced only for powershell and later it was also integrated into Jscript, VBScript, VBA and then very late was integrated into .NET with the introduction of .net framework 4.8
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210812163113.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210812163113.png)
 
 <center><b>source</b>: Microsoft</center>
 
 AMSI is not only restrcited to be used in Powershell, Jscript, VBScript or VBA, anyone can integrate AMSI with their programs using the API calls provided by AMSI Interface. The AMSI API calls that the program can use (in our case powershell) is defined inside amsi.dll. As soon as the powershell process has started, amsi.dll is loaded into it. We can verify it with [**Process Hacker**](https://processhacker.sourceforge.io/downloads.php)
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210812164212.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210812164212.png)
 
 AMSI exports the below mentioned API functions that the program uses to communicate with the local antivirus software through RPC.
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210814141704.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210814141704.png)
 
 - **AmsiInitialize:** The program uses this method to initialize the AMSI session. It takes two parameters, one is the name of the application and second is the pointer to the context structure which needs to be specified with subsequent AMSI related API calls in the program.
 
@@ -130,7 +130,7 @@ void AmsiCloseSession(
 
 Among these AMSI APIs, the one which is interesting to us is AmsiScanString and AmsiScanBuffer. AmsiScanString later calls AmsiScanBuffer underneath.
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816092128.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816092128.png)
 
 ### Bypassing AMSI
 
@@ -138,13 +138,13 @@ The two most commonly used method for bypassing AMSI is obfuscation and Patching
 
 As all what AMSI does it passes the content to the AV to determine if it's malicious or not, so if the content is obfuscated, there's no way for the AV to tell if it's malicious.
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210814150019.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210814150019.png)
 
 If we can strip or obfuscate the words in our script that gets detected by the AV, we can pretty much run any script without being detected but it's not feasible to obfuscate or strip all detected words as it takes more time or might even break the script, even AV keeps updating it's signature, so we got to keep updating our script accordingly. 
 
 So, it's not seeming feasible to obfuscate as every AV vendors might have different signatures and it keeps updating. The other mostly used AMSI bypassing is by patching the AmsiScanBuffer function as the amsi.dll library is loaded in the same virtual memory space of the process, so we have pretty much full control in that address space. Let's see the AMSI API calls made by powershell with the help of Frida.
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816093016.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816093016.png)
 
 Above we are tracing all the AMSI API calls made by powershell. We can't see the arguments passed to the function nor the results returned by the AMSI scan. When we first start frida session, it creates handler files, we can modify those file to print the arguments and results at runtime.
 
@@ -152,25 +152,25 @@ Above we are tracing all the AMSI API calls made by powershell. We can't see the
 C:\Users\User\__handlers__\amsi.dll\AmsiScanBuffer.js
 ```
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816093957.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816093957.png)
 
 Above we modified the handler file to print the arguments to the APIs when they are called and print the result on exit.
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816094423.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816094423.png)
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816094758.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816094758.png)
 
 AmsiScanBuffer returns result 1 when the input is clean and 32768 when the input is found to be malicious.
 
 Let's look into the AmsiScanBuffer function in more detail inside Disassembler (I'm using IDA here).
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816100211.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816100211.png)
 
 The actual scanning is performed by the instructions in the left box. The instructions at right is called whenever the arguments passed by the caller is not valid, 80070057h corresponds to `E_INVALIDARG`. And then the function ends.
 
 So we can patch the beginning of AmsiScanBuffer() with the instructions in right box i.e., mov eax, 80070057h; ret. So that whenever AmsiScanBuffer() is called, it returns with the error code instead of performing the actual AMSI Scan. The byte that corresponds to that instruction is `b85700780`
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816103917.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816103917.png)
 
 We need to modify the beginning of AmsiScanBuffer with 
 ```markdown
@@ -182,11 +182,11 @@ The bytes that correspond to the above instructions is `b857000780c3`
 
 We need to reverse the bytes because of little endian architecture.
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816105424.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816105424.png)
 
 As can be seen, now the very first instruction of AmsiScanBuffer has been overwritten.
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816105705.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816105705.png)
 
 As can be seen, now the result is 0 and AMSI is not triggered when we passed "Invoke-Mimikatz" string in powershell.
 
@@ -238,15 +238,15 @@ $out = 0
 
 In the above code, first we are getting the handle to the amsi.dll library then calling GetProcAddress to get the address to the AmsiScanBuffer function inside amsi.dll. Then we are defining a variable named $ret which contains the bytes which will overwrite the very first instructions of AmsiScanBuffer, $out is what will contain the old permission of the memory region returned by VirtualProtect then we are calling VirtualProtect to change the permission of AmsiScanBuffer region to RWX(0x40) and then using Marshal.Copy to copy bytes from managed memory region to unmanaged and then calling VirtualProtect again to change back the permission of AmsiScanBuffer to previous one which we had stored in $out.
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816164830.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816164830.png)
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816164938.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816164938.png)
 
 As can be seen above, now passing "Invoke-Mimikatz" doesn't trigger amsi alert. If you have attached the powershell session to WinDBG, you can verify if the AmsiScanBuffer was overwritten with our bytes.
 
 Thank you very much for taking your time in reading this. Feel free to reach out to me @dazzyddos for any query or if there's any correction or addition needed.
 
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypassPasted%20image%2020210816164903.png)
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/amsibypass/Pasted%20image%2020210816164903.png)
 
 ### Resources
 
