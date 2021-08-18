@@ -1,5 +1,5 @@
 ---
-title: Defense Evasion Series Part 1: AMSI Bypass
+title: Defense Evasion Series Part 1 AMSI Bypass
 author: Dazzy Ddos
 date: 2021-08-18 19:10:00 +0800
 categories: [av bypass, amsi, defender bypass]
