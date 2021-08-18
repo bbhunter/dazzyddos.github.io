@@ -266,12 +266,3 @@ https://www.mdsec.co.uk/2018/06/exploring-powershell-amsi-and-logging-evasion/
 https://fluidattacks.com/blog/amsi-bypass/
 
 https://frida.re
-
-
-
-
-
-
-
-
-
