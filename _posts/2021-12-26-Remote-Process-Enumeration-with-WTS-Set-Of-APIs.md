@@ -39,7 +39,7 @@ int main()
 
 Inside the printf we are just printing the process id, number of threads it has, the parent process id and finally the name of the process.
 
-![[processlist.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/wtsinfo/processlist.png)
 
 This is how we could enumerate processes on the local machine using Windows API. How about doing the same on a remote machine. There's another way of enumerating processes, this is using WTS set of functions. WTS functions are set of Windows Terminal Services APIs that are intended for terminal services environment, but work equally well in a local environment. 
 
@@ -91,7 +91,7 @@ Then we are using the for loop to iterate through each structure and then print 
 
 Let's run the program now to see if we can enumerate processes from the remote host (In my case I will be my DC's IP Address)
 
-![[Pasted image 20211226111802.png]]]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/wtsinfo/Pasted%20image%2020211226111802.png))
 
 You can see that we were successfully able to open the handle to the host but we could not enumerate running process which actually makes sense as our program is running in the context of normal domain user which doesn't have right to enumerate process on the Domain Controller.
 
@@ -227,4 +227,4 @@ int main(int argc, char** argv)
 
 Now we can successfully enumerate process in Domain Controller.
 
-![[Pasted image 20211226123550.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/wtsinfo/Pasted%20image%2020211226123550.png)
