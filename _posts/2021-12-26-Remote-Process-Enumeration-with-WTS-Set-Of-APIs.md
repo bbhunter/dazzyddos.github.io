@@ -1,3 +1,14 @@
+---
+title: Remote Process Enumeration with WTS Set of Windows APIs
+author: Dazzy Ddos
+date: 2021-12-26 14:10:00 +0800
+categories: [Enumeration, Red Teaming]
+tags: [pentesting, hacking, red teaming, enumeration]
+
+---
+
+### Introduction
+
 Hi All. I welcome you again. In this particular blog post we'll code our own tool in C++ to gather information (list of running processes) from remote system. We will be assuming that we got initial access in the AD network somehow and we want to gather information (in this case list of running processes) from remote system without having to use any complete framework tool with known signatures.
 
 Windows API provides several ways to enumerate processes. The first set of APIs we will see are **ToolHelp** functions. They were introduced in Windows 2000 to faciliate easier process enumeration. ToolHelp comes with these set of APIs that can aid us in Process Enumeration, [**CreateToolhelp32Snapshot**](https://docs.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-createtoolhelp32snapshot), [**Process32First**](https://docs.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-process32first) and [**Process32Next**](https://docs.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-process32next). CreateToolhelp32Snapshot function allows us to enumerate both processes and threads. It also allows to enumeration modules and heaps in specific process. For process enumeration, Process32First and Process32Next function is going to be used. The first function will return the handle to the first process and we'll use Process32Next to enumeration through the list of process until we have no more processes.
