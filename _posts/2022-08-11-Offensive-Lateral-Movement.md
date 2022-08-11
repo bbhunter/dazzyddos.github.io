@@ -25,4 +25,4 @@ Hey All, it's been long time and hope you all are doing good. Sometime back I ha
 - Lateral Movement by Duplicating Existing Open Socket Connections (ShadowMove)
 
 
-I will be posting the Recording Videos and Slides here on this page once we have concluded with this workshop. You can suggest us any techniques that you would like to see in the workshop. Looking for to it, PEACE.
+I will be posting the Slides here on this page once we have concluded with this workshop. You can suggest us any techniques that you would like to see in the workshop. Looking for to it, PEACE.
