@@ -9,7 +9,7 @@ tags: [pentesting, red teaming, expdev]
 
 ## Introduction
 
-Hey All, it's been long time and hope you all are doing good. Sometime back I had prepared a content of a workshop which I had planned to present in multiple conferences, I had included one of my friend to it who didn't contribute to the development of content nor the labs but still I gave him chance as he just wanted to enter into the infosec community by assisting me in this workshop and I agreed to it. Now it's very sad to see that the same friend is using my workshop content to present in different conferences. So, I have decided to make this workshop free and will be present it live online around this month last or probably next month i.e., September 2022. You can refer below for the rough table of contents, we might add more contents to it.
+Hey All, it's been long time and hope you all are doing good. Sometime back I had prepared a content of a workshop which I had planned to present in multiple conferences, I had included one of my colleague from previous to it who didn't contribute to the development of content nor the labs but still I gave him chance as he just wanted to enter into the infosec community by assisting me in this workshop and I agreed to it. Now it's very sad to see that the same friend is using my workshop content to present in different conferences. So, I have decided to make this workshop free and will be present it live online around this month last or probably next month i.e., September 2022. You can refer below for the rough table of contents, we might add more contents to it.
 
 ### Table of Contents
 
