@@ -1,5 +1,5 @@
 ---
-title: Naughty Hooking: Detoxifying Memory Before doing Crime
+title: Naughty Hooking Detoxifying Memory Before doing Crime
 author: Dazzy Ddos
 date: 2023-08-17 08:48:00 +0800
 categories: [Defense Evasion]
