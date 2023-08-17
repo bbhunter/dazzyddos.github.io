@@ -2,7 +2,7 @@
 title: Naughty Hooking: Detoxifying Memory Before doing Crime
 author: Dazzy Ddos
 date: 2023-08-17 08:48:00 +0800
-categories: [Red Teaming, Evasion, Malware Development]
+categories: [Defense Evasion]
 tags: [hooking, red teaming]
 
 ---
