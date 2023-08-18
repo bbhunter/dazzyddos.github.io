@@ -1,9 +1,9 @@
 ---
-title: Naughty Hooking Detoxifying Memory Before doing Crime
+title: Naughty Hooking Part 1 Detoxifying Memory Before doing Crime
 author: Dazzy Ddos
-date: 2023-08-17 08:48:00 +0800
+date: 2023-08-18 14:10:00 +0800
 categories: [Defense Evasion]
-tags: [hooking, red teaming]
+tags: [evasion, red teaming, hacking]
 
 ---
 
@@ -395,11 +395,25 @@ These global variables are:
     - Gets the address of `MessageBoxA` in memory.
     - Saves the first 6 bytes of the original `MessageBoxA`.
     - Modifies memory protection of the `MessageBoxA` function to make it writable.
-    - Creates a patch that will make the original function jump to `hookedMessageBox` when called and writes this patch over the original `MessageBoxA` function.
+    - Creates a patch that will make the original function jump to `hookedMessageBox` when called and writes this patch over the original `MessageBoxA` function (`push hookedMessageBoxAddr; ret`)
 
 `In essence, when the DLL is loaded, the `hook` function will make it so that any subsequent calls to MessageBoxA from the hosting process will always display a message box with "HACKED", before restoring the function to its original state.`
 
 For our demonstration, we'll utilize the classic DLL Injection technique to inject our DLL into a target process. This method essentially involves a sequence of steps: initiating with `OpenProcess` to get a handle, followed by `VirtualAllocEx` for memory allocation within the process, then `WriteProcessMemory` to place our DLL into that memory, and finally, `CreateRemoteThread` to kickstart the execution of our DLL within the process's context.
+
+Next, let's take a look by examining the `MessageBoxA` function within the **windbg** debugger—both before and after our hook is applied. The below image shows the original MessageBoxA function before hooking.
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/naughtyhooking1/Pasted%20image%2020230818073050.png)
+
+Once you inject the DLL and resume the program's execution, **WinDbg** will provide a notification about the DLL being loaded
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/naughtyhooking1/Pasted%20image%2020230818073208.png)
+
+You can also verify the loaded DLLs using the `lm` command in **WinDbg**.
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/naughtyhooking1/Pasted%20image%2020230818073323.png)
+
+Now, let's examine the appearance of the `MessageBoxA` API post-hooking.
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/naughtyhooking1/Pasted%20image%2020230818073501.png)
+
+From the above image, it's evident that the first instruction of the `MessageBoxA` API has been replaced with the `push` and `ret` instructions. Now, let's proceed and let the program run.
 
 ![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/naughtyhooking1/Pasted%20image%2020230817224606.png)
 
