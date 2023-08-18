@@ -1,9 +1,9 @@
 ---
-title: Naughty Hooking Detoxying Memory
+title: Naughty Hooking
 author: Dazzy Ddos
 date: 2023-08-18 14:10:00 +0800
-categories: [Defense Evasion]
-tags: [hacking, evasion]
+categories: [Red Teaming]
+tags: [evasion, hooking, edr bypass, unhooking]
 
 ---
 
