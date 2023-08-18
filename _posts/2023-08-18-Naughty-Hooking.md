@@ -1,5 +1,5 @@
 ---
-title: Naughty Hooking Detoxying Memory Before Doing Cr7m3
+title: Naughty Hooking Detoxying Memory
 author: Dazzy Ddos
 date: 2023-08-18 14:10:00 +0800
 categories: [Defense Evasion]
@@ -430,4 +430,3 @@ That wraps up our exploration for this post. In our upcoming blog entry, we'll d
 - http://phrack.org/issues/65/10.html#article
 - https://www.codeproject.com/Articles/2082/API-hooking-revealed
 ```
-
