@@ -1,14 +1,14 @@
 ---
 title: Naughty Hooking Detoxifying Memory Before Doing Crime
 author: Dazzy Ddos
-date: 2023-08-18 14:10:00 +0800
+date: 2023-08-18 08:15:00 +0800
 categories: [Defense Evasion]
 tags: [evasion, hooking, unhooking, frida]
 
 ---
 
 ## Introduction 
-
+------
 Konnichiwa my dear readers, I trust it's been a while since my last update. I'm thrilled to be back, and I'm excited to delve into an intriguing, yet undeniably significant aspect of malware development and evasion today. 
 
 This blog post is comprehensive and may initially seem overwhelming. If you find it challenging to grasp everything at once, don't worry. I recommend exploring other related blog posts, which I've listed below for your convenience. Diversifying your sources often helps connect the dots, and over time, everything will fall into place.
