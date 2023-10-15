@@ -11,7 +11,6 @@ tags:
   - frida
 ---
 
-
 Konichiwa to all my readers! Today, I'm sharing a concise blog post centered on a query that arose during a malware development training session I was conducting. This post contains my observations and experiments in response to that question. Below, you'll find a screenshot of the exact query posed by one of the participants. At that time, I wasn't entirely sure of the answer, so I promised to research and circle back. To ensure I was on the right track and not diverging from the original question, I reached out to him today on Discord for a quick recap :P 
 ![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/copyonwrite/Pasted%20image%2020231014103148.png)
 
@@ -143,8 +142,11 @@ int main() {
 	return 0;
 }
 ```
-In the code above, we are going to be overwriting the complete .text region of the NTDLL section. Using VMMap to analyze the program, it became evident that no separate pages were generated this time. Instead, the entire `.text` region of `ntdll.dll` was duplicated locally for the process.
-![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/copyonwrite/Pasted%20image%2020231014225359.png)
+In the code above, we are going to be overwriting the complete .text region of the NTDLL section. Using VMMap to analyze the program, it became evident that no separate pages were generated this time. Instead, the entire `.text` region of `ntdll.dll` was duplicated locally for the process. The screenshot below shows the state of NTDLL .text region before overwriting (unhooking), it's evident that it's residing in the shared memory region.
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/copyonwrite/Pasted%20image%2020231015113013.png)
+
+After unhooking (overwriting) has been performed, the same .text region has now been copied locally and has now become a private region for our process.
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/copyonwrite/Pasted%20image%2020231015113243.png)
 
 The same behavior I observed with codes like Peruns Fart also where we modify the .text region of NTDLL in process.
 
