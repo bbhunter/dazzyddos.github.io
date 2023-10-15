@@ -1,6 +1,9 @@
 ---
 title: (Un)Hooking, COWs and Meow Meow
-author: Dazzy Ddos
+comments: true
+author:
+  name: Dazzy
+  link: https://twitter.com/dazzyddos
 date: 2023-10-14 08:15:00 +0800
 categories:
   - Red Teaming
