@@ -16,10 +16,9 @@ Konichiwa to all my readers! Today, I'm sharing a concise blog post centered on 
 ![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/copyonwrite/Pasted%20image%2020231014103148.png)
 
 TLDR
-```
-Yes, when you use NtMapViewOfFile and NtMapViewOfSection to load and map a copy of ntdll.dll from the disk into our process, and then attempt to modify its .text section of ntdll in memory with it's .text section, Copy On Write will indeed be triggered. This is because the memory pages of shared libraries like ntdll.dll are typically marked as read-only, and any write operation to these pages will invoke the COW. As a result of this, the specific page (or pages) we're trying to write to will be duplicated for our process, ensuring that other processes using the same ntdll.dll are not affected.
-Now, regarding the question of whether two ntdll.dll instances would be loaded into your process, technically, yes. One instance is the original ntdll.dll that's loaded into every process by the OS. The second instance is the one you manually mapped using NtMapViewOfFile / NtMapViewOfSection. It's also important to understand that the manually mapped ntdll.dll will not be used by the system or other applications unless explicitly done so by your process [GetProcAddress(yourNtdll, "NtCreateFile")]
-```
+>Yes, when you use NtMapViewOfFile and NtMapViewOfSection to load and map a copy of ntdll.dll from the disk into our process, and then attempt to modify its .text section of ntdll in memory with it's .text section, Copy On Write will indeed be triggered. This is because the memory pages of shared libraries like ntdll.dll are typically marked as read-only, and any write operation to these pages will invoke the COW. As a result of this, the specific page (or pages) we're trying to write to will be duplicated for our process, ensuring that other processes using the same ntdll.dll are not affected. 
+>Now, regarding the question of whether two ntdll.dll instances would be loaded into your process, technically, yes. One instance is the original ntdll.dll that's loaded into every process by the OS. The second instance is the one you manually mapped using NtMapViewOfFile / NtMapViewOfSection. It's also important to understand that the manually mapped ntdll.dll will not be used by the system or other applications unless explicitly done so by your process [GetProcAddress(yourNtdll, "NtCreateFile")]
+
 
 Now for those who wants to read through my struggles and noob debugger examples, please proceed to read through :P
 
@@ -64,9 +63,7 @@ By only duplicating the modified pages rather than the entire module, the OS ach
 
 Another question that you may ask now is how does our process(Notepad.exe) know which NtCreateFile to call, the one modified and private to our memory space or the one that resides in shared memory region?
 The answer to this question was partially answered above in our statement 
-```
-due to the Copy-on-Write (COW) mechanism, the OS makes a private copy of the modified page (not the whole DLL) just for your process. This copied page replaces the shared page in your process's PAGE TABLE.
-```
+>due to the Copy-on-Write (COW) mechanism, the OS makes a private copy of the modified page (not the whole DLL) just for your process. This copied page replaces the shared page in your process's PAGE TABLE.
 
 Each process has its own virtual address space, and the OS, with the help of the MMU (Memory Management Unit), translates these virtual addresses to physical addresses. The page table is the core data structure used for this translation. When you modified `NtCreateFile`, the page table entry for that specific page was updated to point to the new, private page, while other entries remained unchanged and still point to shared pages. So, when your process calls the `NtCreateFile` function, it looks up the address in its own page table. Since the page table entry for that page now points to the private copy (thanks to your modification and COW), your process will execute the modified `NtCreateFile` function.
 
