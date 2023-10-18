@@ -166,22 +166,22 @@ The diagram below illustrates that when our process attempts a write operation (
 
 In response to Ali Hadi's insightful comment, I decided to delve deeper into the behavior of COW, specifically concerning the DLLs listed in the KnownDLLs object.
 
-![[Pasted image 20231018103831.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/copyonwrite/Pasted%20image%2020231018103831.png)
 
 **Background on KnownDLLs Object**
 >KnownDLLs is a mechanism that Windows uses to optimize the loading of certain system libraries. DLLs listed in KnownDLLs are shared across all processes to speed up the system's performance. When a process needs to load a DLL, the system first checks if it's a KnownDLL. If it is, the system uses the already-loaded copy from the shared section instead of loading a new one from disk.
 
 To address Ali's query, whether COW is exclusively triggered for DLLs present in KnownDLLs, I began by examining the content of the KnownDLLs object for my Windows
 
-![[Pasted image 20231018103912.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/copyonwrite/Pasted%20image%2020231018103912.png)
 
 Notably, `amsi.dll` was absent from the list. This was intriguing since `amsi.dll` is frequently utilized by many processes. Furthermore, I noticed the omission of `NTDLL` as well.
 Taking `amsi.dll` as a test case, I reviewed its memory mapping using vmmap:
 Before Hooking **AmsiScanBuffer**
-![[Pasted image 20231018105104.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/copyonwrite/Pasted%20image%2020231018105104.png)
 
 Subsequently, I hooked the `AmsiScanBuffer`. The memory mapping post-hooking revealed the creation of a new private memory map:
-![[Pasted image 20231018105600.png]]
+![](https://raw.githubusercontent.com/dazzyddos/dazzyddos.github.io/master/Images/copyonwrite/Pasted%20image%2020231018105600.png)
 
 **Conclusion:** The investigation above indicates that COW is not restricted to DLLs in the KnownDLLs object. Hooking a function in `amsi.dll` (which isn't part of KnownDLLs) led to COW behavior, evidenced by the creation of a new private memory map.
 ### Resources and References
