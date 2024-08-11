@@ -1,5 +1,5 @@
 ---
-title: Abusing Defender AV Exclusions
+title: Abusing Exclusions To Evade Detection
 comments: true
 author: Dazzy
 date: 2024-08-11 08:15:00 +0800
